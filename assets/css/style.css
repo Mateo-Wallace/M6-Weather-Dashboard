@@ -6,3 +6,7 @@
   .fa-poo-storm:hover {
     transform: translateY(-5px);
   }
+
+  .background {
+    background: linear-gradient(to right, rgb(97, 107, 245) , rgb(6, 6, 156));
+  }
