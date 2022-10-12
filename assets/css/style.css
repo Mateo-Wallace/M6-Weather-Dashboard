@@ -1,0 +1,8 @@
+.fa-poo-storm {
+    transition: transform 250ms;
+    text-decoration: none;
+  }
+  
+  .fa-poo-storm:hover {
+    transform: translateY(-5px);
+  }
