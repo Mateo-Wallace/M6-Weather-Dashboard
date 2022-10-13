@@ -9,7 +9,7 @@
     <script src="https://kit.fontawesome.com/b84e779c40.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
-    <title>Wouldn't you like to know. Weather Boy.</title>
+    <title>Weather Boy</title>
 </head>
 
 <body>
@@ -24,27 +24,34 @@
         <div class="col-12 col-md-4">
 
             <!-- Search for City -->
-            <div class="card">
+            <div class="card m-1">
                 <h3 class="card-header fw-bold">Search for a City:</h3>
-                <form class="card-body">
-                    <input id="search-input" type="text" autofocus="true" class="form-input w-100 m-1" />
-                    <button id="search-submit" type="submit" class="btn btn-primary w-100 m-1">Search</button>
+                <form class="card-body row justify-content-evenly">
+                    <input id="search-input" type="text" autofocus="true" class="form-input col-5 col-md-11 m-1" />
+                    <button id="search-submit" type="submit" class="btn btn-primary col-5 col-md-11 m-1">Search</button>
                 </form>
             </div>
 
             <!-- Saved searches -->
-            <div class="card border-light">
-                <div id="language-buttons" class="card-body">
-                    <button class="btn btn-secondary col-12 m-1">JavaScript</button>
-                    <button class="btn btn-secondary col-12 m-1">HTML</button>
-                    <button class="btn btn-secondary col-12 m-1">CSS</button>
+            <div class="card border-light m-1">
+                <div class="card-body row justify-content-evenly">
+                    <button class="btn btn-secondary col-3 col-md-11 m-1">Orlando</button>
+                    <button class="btn btn-secondary col-3 col-md-11 m-1">Miami</button>
+                    <button class="btn btn-secondary col-3 col-md-11 m-1">Key West</button>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 col-md-8">
-            <h2 class="subtitle">Showing Repositories for: <span id="repo-search-term"></span></h2>
-            <div id="repos-container" class="list-group"></div>
+        <!-- Weather Information -->
+        <div class="col-12 col-md-5 m-1">
+            <!-- Todays forecast -->
+            <div id="" class="">
+
+            </div>
+            <!-- 5 day forecast -->
+            <div id="" class="">
+                
+            </div>
         </div>
     </main>
 
