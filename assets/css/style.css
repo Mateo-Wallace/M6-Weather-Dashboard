@@ -10,3 +10,12 @@
   .background {
     background: linear-gradient(to right, rgb(97, 107, 245) , rgb(6, 6, 156));
   }
+
+  .query {
+    flex-direction: row;
+  }
+  @media screen and (max-width: 767px){
+    .query {
+        flex-direction: column;
+    }    
+  }
