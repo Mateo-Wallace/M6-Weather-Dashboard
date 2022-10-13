@@ -1,21 +1,22 @@
 .fa-poo-storm {
     transition: transform 250ms;
     text-decoration: none;
-  }
-  
-  .fa-poo-storm:hover {
+}
+
+.fa-poo-storm:hover {
     transform: translateY(-5px);
-  }
+}
 
-  .background {
-    background: linear-gradient(to right, rgb(97, 107, 245) , rgb(6, 6, 156));
-  }
+.background {
+    background: linear-gradient(to right, #0d6efd, #261360);
+}
 
-  .query {
+.query {
     flex-direction: row;
-  }
-  @media screen and (max-width: 767px){
+}
+
+@media screen and (max-width: 767px) {
     .query {
         flex-direction: column;
-    }    
-  }
+    }
+}
