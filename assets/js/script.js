@@ -2,6 +2,8 @@
 // search history as an empty array
 // weather api root url
 // api key
+const searchSubmitBtn = document.getElementById('search-submit');
+var searchInput = document.getElementById('search-input');
 
 // DOM element references
 // search form
@@ -11,7 +13,7 @@
 // search history container
 
 
-// Function to display the search history list.
+  // Function to display the search history list.
 function renderSearchHistory() {
     // empty the search history container
   
@@ -98,12 +100,26 @@ function renderSearchHistory() {
   
   function fetchCoords(search) {
     // variable for you api url
-  
     // fetch with your url, .then that returns the response in json, .then that does 2 things - calls appendToHistory(search), calls fetchWeather(the data)
-  
+    var geoUrl = "http://api.openweathermap.org/geo/1.0/direct?q=";
+    var apikey = '338d1628f784e2c0c339e4ade3ce2735'
+    fetch(geoUrl+search+"&limit=1&appid="+apikey)
+    .then(function (response) {
+      console.log(response.json())
+        return response.json();
+        })
+    .then(function (data) {
+        if (!data[0]) {
+          console.log('nothing')
+            return;
+        }
+    clearScreen();
+    fetchWeather(data);
+        });
   }
   
   function handleSearchFormSubmit(e) {
+    console.log('search button clicked')
     // Don't continue if there is nothing in the search form
     if (!searchInput.value) {
       return;
@@ -122,5 +138,6 @@ function renderSearchHistory() {
   }
   
   initSearchHistory();
-  // click event to run the handleFormSubmit 
+  searchSubmitBtn.addEventListener('click', handleSearchFormSubmit);
+   // click event to run the handleFormSubmit 
   // click event to run the handleSearchHistoryClick
