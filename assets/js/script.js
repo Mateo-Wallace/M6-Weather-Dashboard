@@ -3,16 +3,16 @@
 const apiKey = '338d1628f784e2c0c339e4ade3ce2735';
 var city = '';
 var search = '';
+var lat;
+var lon;
 const queryUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + apiKey;
 
 // DOM element references
 const searchSubmitBtn = document.getElementById('search-submit');
 const searchInput = document.getElementById('search-input');
 const savedSearchEl = document.getElementById('saved-search');
-// container/section for today's weather
-// container/section for the forecast 
-
-
+const todaysForecastEl = document.getElementById('todays-forecast');
+const fiveDayForecastEl = document.getElementById('5-day-forecast');
 
 // Pulls searches from local storage and displays them on page
 function renderSearchHistory() {
@@ -93,11 +93,20 @@ function renderItems(city, data) {
 // endpoint; then, calls functions to display current and forecast weather data.
 function fetchWeather(location) {
   // varialbles of longitude, latitude, city name - coming from location
-
   // api url
-
+  var weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&units=imperial&lang=en&appid=' + apiKey;
   // fetch, using the api url, .then that returns the response as json, .then that calls renderItems(city, data)
-
+  fetch(weatherUrl)
+    .then(function (response) {
+      if (response.ok) {
+        response.json()
+        .then(function (data) {
+          console.log(data);
+        })
+      } else {
+        return;
+      }
+    })
 }
 
 function fetchCoords(search) {
@@ -108,24 +117,27 @@ function fetchCoords(search) {
   fetch(geoUrl)
     .then(function (response) {
       if (response.ok) {
-        response.json().then(function (data) {
-          // Returns nothing if the data has no information, ex: city does not exist in api
-          if (data.length === 0) {
-            alert('Unknown City. \nBe sure to only type the city name without the State.\n\nIf issue persists please try another city.')
-            return;
-          }
-          console.log(data)
-          var lat = data[0].lat;
-          var lon = data[0].lon;
-          search = data[0].name;
-          console.log('lat: ' + lat + ', lon: ' + lon);
+        response.json()
+          .then(function (data) {
+            // Returns nothing if the data has no information, ex: city does not exist in api
+            if (data.length === 0) {
+              alert('Unknown City. \nBe sure to only type the city name without the State.\n\nIf issue persists please try another city.')
+              return;
+            }
+            console.log(data)
+            lat = data[0].lat;
+            lon = data[0].lon;
+            search = data[0].name;
+            city = search
+            console.log('lat: ' + lat + ', lon: ' + lon);
 
-          appendToHistory(search);
-          fetchWeather(lat, lon, city);
-        })
+            appendToHistory(search);
+            fetchWeather(lat, lon, city);
+          })
+      } else {
+        return;
       }
     })
-
 }
 
 // Pulls down the value of the User Input when search is clicked
