@@ -3,34 +3,35 @@
 // var searchHistory = [''];
 const apiKey = '338d1628f784e2c0c339e4ade3ce2735';
 var city = '';
+var search = '';
 const queryUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + apiKey;
 
 // DOM element references
 // search form
 // search input
 const searchSubmitBtn = document.getElementById('search-submit');
-const searchHistoryBtn = document.getElementById('search-history');
 const searchInput = document.getElementById('search-input');
+const savedSearchEl = document.getElementById('saved-search');
 // container/section for today's weather
 // container/section for the forecast 
 // search history container
 
 
-// Function to display the search history list.
+// Pulls searches from local storage and displays them on page
 function renderSearchHistory() {
-  // empty the search history container
-
-  // loop through the history array creating a button for each item
-
-  // append to the search history container
-
+  savedSearchEl.innerHTML = "";
+  for (var i = 0; i < localStorage.length; i++) {
+    city = localStorage.getItem(localStorage.key(i));
+    var cityButton = document.createElement("button");
+    cityButton.setAttribute("class", "btn btn-dark col-3 col-md-11 m-1");
+    cityButton.textContent = city;
+    savedSearchEl.appendChild(cityButton);
+  }
 }
 
 // Adds searched city to local storage. Calls function to add button to page
 function appendToHistory(search) {
-  // push search term into search history array
   localStorage.setItem(search, search);
-  // set search history array to local storage
   renderSearchHistory();
 }
 
@@ -116,8 +117,10 @@ function fetchCoords(search) {
             alert('Unknown City. \nBe sure to only type the city name without the State.\n\nIf issue persists please try another city.')
             return;
           }
+          console.log(data)
           var lat = data[0].lat;
           var lon = data[0].lon;
+          search = data[0].name;
           console.log('lat: ' + lat + ', lon: ' + lon);
 
           appendToHistory(search);
@@ -136,8 +139,7 @@ function handleSearchFormSubmit(e) {
   }
   e.preventDefault();
 
-  var rawSearch = searchInput.value.trim();
-  var search = rawSearch.charAt(0).toUpperCase() + rawSearch.slice(1).toLowerCase();
+  search = searchInput.value.trim();
   console.log('Searched item = ' + search);
   fetchCoords(search);
   searchInput.value = '';
@@ -147,7 +149,7 @@ function handleSearchFormSubmit(e) {
 function handleSearchHistoryClick(e) {
   console.log('Previous Search Button Clicked');
   console.log('Searched item = ' + e.target.textContent);
-  var search = e.target.textContent;
+  search = e.target.textContent;
   fetchCoords(search);
 }
 
@@ -156,4 +158,4 @@ initSearchHistory();
 
 // Event listeners for 1. Searching a new city and 2. Clicking a previously searched city
 searchSubmitBtn.addEventListener('click', handleSearchFormSubmit);
-searchHistoryBtn.addEventListener('click', handleSearchHistoryClick);
+savedSearchEl.addEventListener('click', handleSearchHistoryClick);
