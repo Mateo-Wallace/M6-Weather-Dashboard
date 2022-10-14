@@ -10,7 +10,7 @@ const queryUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + 
 // search input
 const searchSubmitBtn = document.getElementById('search-submit');
 const searchHistoryBtn = document.getElementById('search-history');
-var searchInput = document.getElementById('search-input');
+const searchInput = document.getElementById('search-input');
 // container/section for today's weather
 // container/section for the forecast 
 // search history container
@@ -26,10 +26,10 @@ function renderSearchHistory() {
 
 }
 
-// Function to update history in local storage then updates displayed history.
+// Adds searched city to local storage. Calls function to add button to page
 function appendToHistory(search) {
   // push search term into search history array
-
+  localStorage.setItem(search, search);
   // set search history array to local storage
   renderSearchHistory();
 }
@@ -130,21 +130,22 @@ function fetchCoords(search) {
 
 // Pulls down the value of the User Input when search is clicked
 function handleSearchFormSubmit(e) {
-  console.log('search button clicked');
+  console.log('Search Button Clicked');
   if (!searchInput.value) {
     return;
   }
   e.preventDefault();
 
-  console.log('Searched item = ' + searchInput.value);
-  var search = searchInput.value.trim();
+  var rawSearch = searchInput.value.trim();
+  var search = rawSearch.charAt(0).toUpperCase() + rawSearch.slice(1).toLowerCase();
+  console.log('Searched item = ' + search);
   fetchCoords(search);
   searchInput.value = '';
 }
 
 // Selects value of button clicked 
 function handleSearchHistoryClick(e) {
-  console.log('previous search button clicked');
+  console.log('Previous Search Button Clicked');
   console.log('Searched item = ' + e.target.textContent);
   var search = e.target.textContent;
   fetchCoords(search);
