@@ -9,7 +9,7 @@ const queryUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + 
 // search form
 // search input
 const searchSubmitBtn = document.getElementById('search-submit');
-const searchHistoryBtn = document.getElementById('search-history')
+const searchHistoryBtn = document.getElementById('search-history');
 var searchInput = document.getElementById('search-input');
 // container/section for today's weather
 // container/section for the forecast 
@@ -109,20 +109,19 @@ function fetchCoords(search) {
   // Determines lat and lon of city. Calls appendToHistory and FetchWeather
   fetch(geoUrl)
     .then(function (response) {
-      console.log(response)
-      console.log(response.statusText)
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data)
+          // Returns nothing if the data has no information, ex: city does not exist in api
           if (data.length === 0) {
-            return
+            alert('Unknown City. \nBe sure to only type the city name without the State.\n\nIf issue persists please try another city.')
+            return;
           }
           var lat = data[0].lat;
           var lon = data[0].lon;
-          console.log('lat: ' + lat + ', lon: ' + lon)
+          console.log('lat: ' + lat + ', lon: ' + lon);
 
-          appendToHistory(search)
-          fetchWeather(lat, lon, city)
+          appendToHistory(search);
+          fetchWeather(lat, lon, city);
         })
       }
     })
@@ -131,7 +130,7 @@ function fetchCoords(search) {
 
 // Pulls down the value of the User Input when search is clicked
 function handleSearchFormSubmit(e) {
-  console.log('search button clicked')
+  console.log('search button clicked');
   if (!searchInput.value) {
     return;
   }
@@ -145,9 +144,9 @@ function handleSearchFormSubmit(e) {
 
 // Selects value of button clicked 
 function handleSearchHistoryClick(e) {
-  console.log('previous search button clicked')
-  console.log('Searched item = ' + e.target.textContent)
-  var search = e.target.textContent
+  console.log('previous search button clicked');
+  console.log('Searched item = ' + e.target.textContent);
+  var search = e.target.textContent;
   fetchCoords(search);
 }
 
@@ -155,5 +154,5 @@ function handleSearchHistoryClick(e) {
 initSearchHistory();
 
 // Event listeners for 1. Searching a new city and 2. Clicking a previously searched city
-searchSubmitBtn.addEventListener('click', handleSearchFormSubmit)
-searchHistoryBtn.addEventListener('click', handleSearchHistoryClick)
+searchSubmitBtn.addEventListener('click', handleSearchFormSubmit);
+searchHistoryBtn.addEventListener('click', handleSearchHistoryClick);
