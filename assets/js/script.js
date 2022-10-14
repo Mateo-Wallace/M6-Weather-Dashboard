@@ -106,20 +106,27 @@ function fetchCoords(search) {
   var city = search;
   var geoUrl = 'https://api.openweathermap.org/geo/1.0/direct?q=' + city + '&appid=' + apiKey;
 
-  // fetch with your url, .then that returns the response in json, .then that does 2 things - calls appendToHistory(search), calls fetchWeather(the data)
-  fetch()
+  // Determines lat and lon of city. Calls appendToHistory and FetchWeather
+  fetch(geoUrl)
     .then(function (response) {
-      console.log(response.json())
-      return response.json();
-    })
-    .then(function (data) {
-      if (!data[0]) {
-        console.log('nothing')
-        return;
+      console.log(response)
+      console.log(response.statusText)
+      if (response.ok) {
+        response.json().then(function (data) {
+          console.log(data)
+          if (data.length === 0) {
+            return
+          }
+          var lat = data[0].lat;
+          var lon = data[0].lon;
+          console.log('lat: ' + lat + ', lon: ' + lon)
+
+          appendToHistory(search)
+          fetchWeather(lat, lon, city)
+        })
       }
-      clearScreen();
-      fetchWeather(data);
-    });
+    })
+
 }
 
 // Pulls down the value of the User Input when search is clicked
