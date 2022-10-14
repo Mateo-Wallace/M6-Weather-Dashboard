@@ -130,15 +130,17 @@ function handleSearchFormSubmit(e) {
   }
   e.preventDefault();
 
-  console.log(searchInput.value);
+  console.log('Searched item = ' + searchInput.value);
   var search = searchInput.value.trim();
   fetchCoords(search);
   searchInput.value = '';
 }
 
+// Selects value of button clicked 
 function handleSearchHistoryClick(e) {
-  // grab whatever city is is they clicked
-
+  console.log('previous search button clicked')
+  console.log('Searched item = ' + e.target.textContent)
+  var search = e.target.textContent
   fetchCoords(search);
 }
 
