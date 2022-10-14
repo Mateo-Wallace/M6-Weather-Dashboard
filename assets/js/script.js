@@ -34,14 +34,6 @@ function appendToHistory(search) {
   renderSearchHistory();
 }
 
-// Function to get search history from local storage
-function initSearchHistory() {
-  // get search history item from local storage
-
-  // set search history array equal to what you got from local storage
-  renderSearchHistory();
-}
-
 // Function to display the CURRENT weather data fetched from OpenWeather api.
 function renderCurrentWeather(city, weather) {
   // Store response data from our fetch request in variables
@@ -91,19 +83,17 @@ function renderItems(city, data) {
   renderForecast(data.list);
 }
 
-// Fetches weather data for given location from the Weather Geolocation
-// endpoint; then, calls functions to display current and forecast weather data.
-function fetchWeather(location) {
-  // varialbles of longitude, latitude, city name - coming from location
-  // api url
+// Fetches weather data and sends to renderItems function
+function fetchWeather(lat, lon, city) {
   var weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&units=imperial&lang=en&appid=' + apiKey;
-  // fetch, using the api url, .then that returns the response as json, .then that calls renderItems(city, data)
+  
   fetch(weatherUrl)
     .then(function (response) {
       if (response.ok) {
         response.json()
         .then(function (data) {
           console.log(data);
+          renderItems(city, data)
         })
       } else {
         return;
@@ -164,8 +154,7 @@ function handleSearchHistoryClick(e) {
   fetchCoords(search);
 }
 
-// Pulls from local storage previous search history
-initSearchHistory();
+renderSearchHistory();
 
 // Event listeners for 1. Searching a new city and 2. Clicking a previously searched city
 searchSubmitBtn.addEventListener('click', handleSearchFormSubmit);
