@@ -1,20 +1,17 @@
 // Global variables
 // search history as an empty array
-// var searchHistory = [''];
 const apiKey = '338d1628f784e2c0c339e4ade3ce2735';
 var city = '';
 var search = '';
 const queryUrl = 'https://api.openweathermap.org/data/2.5/forecast?q=' + city + '&units=imperial&appid=' + apiKey;
 
 // DOM element references
-// search form
-// search input
 const searchSubmitBtn = document.getElementById('search-submit');
 const searchInput = document.getElementById('search-input');
 const savedSearchEl = document.getElementById('saved-search');
 // container/section for today's weather
 // container/section for the forecast 
-// search history container
+
 
 
 // Pulls searches from local storage and displays them on page
