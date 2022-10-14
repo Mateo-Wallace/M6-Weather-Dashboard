@@ -20,9 +20,11 @@ function renderSearchHistory() {
   for (var i = 0; i < localStorage.length; i++) {
     city = localStorage.getItem(localStorage.key(i));
     var cityButton = document.createElement("button");
-    cityButton.setAttribute("class", "btn btn-dark col-3 col-md-11 m-1");
+    cityButton.setAttribute("class", "btn btn-dark col-3 col-md-11 m-1 saved-search-btn");
+    cityButton.setAttribute('id', city)
     cityButton.textContent = city;
     savedSearchEl.appendChild(cityButton);
+    document.getElementById(city).addEventListener('click', handleSearchHistoryClick)
   }
 }
 
@@ -167,4 +169,3 @@ initSearchHistory();
 
 // Event listeners for 1. Searching a new city and 2. Clicking a previously searched city
 searchSubmitBtn.addEventListener('click', handleSearchFormSubmit);
-savedSearchEl.addEventListener('click', handleSearchHistoryClick);
