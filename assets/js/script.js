@@ -78,32 +78,69 @@ function renderCurrentWeather(city, weather) {
   cardHumidity.innerText = 'Humidity: ' + weather.main.humidity + '%'
 }
 
-// Function to display a FORECAST card given an object (from our renderForecast function)
-function renderForecastCard(forecast) {
-  // variables for data from api
-  // temp, windspeed, etc.
-
-  // Create elements for a card
-
-  // append
-
-  // Add content to elements
-
-  // append to forecast section
-}
-
 // Function to display 5 day forecast. VIP FIRST LOAD
 function renderForecast(dailyForecast) {
-  // set up elements for this section
+  fiveDayForecastEl.innerHTML = "";
 
-  // append
+  // create elements for current section 
+  var headerForecast = document.createElement("h4");
+  var newForecastDiv = document.createElement("div");
+
+  var now = dayjs();
+
+  // append elements to document and style
+  fiveDayForecastEl.appendChild(headerForecast);
+  headerForecast.setAttribute('class', 'fw-bold');
+  fiveDayForecastEl.appendChild(newForecastDiv);
+  newForecastDiv.setAttribute("class", "row justify-content-around");
+
+  // Add text content
+  headerForecast.textContent = "5 Day Forecast:";
 
   // loop over dailyForecast
+  for (var i = 0; i < 5; i++) {
 
-  for (var i = 0; i < dailyForecast.length; i++) {
+    // create elements for each day card 
+    var forecastCard = document.createElement("div");
+    var dateEl = document.createElement("h5");
+    var imageEl = document.createElement('p');
+    var tempEl = document.createElement("p");
+    var windEl = document.createElement("p");
+    var humidityEl = document.createElement("p");
 
-    // send the data to our renderForecast function as an argument
-    renderForecastCard(dailyForecast[i]);
+    var iconImage = dailyForecast[i].weather[0].main;
+    if (iconImage == 'Rain') {
+      iconImage = `<i class="fa-solid fa-cloud-showers-heavy"></i>`;
+    } else if (iconImage == 'Clouds') {
+      iconImage = `<i class="fa-solid fa-cloud"></i>`;
+    } else if (iconImage == 'Clear') {
+      iconImage = `<i class="fa-solid fa-sun"></i>`;
+    } else {
+      iconImage = "";
+    }
+
+    var date = now.add(i, "day").format("MM/DD");
+
+    // append elements to document
+    newForecastDiv.appendChild(forecastCard);
+    forecastCard.setAttribute("class", "card text-bg-dark mb-3");
+    forecastCard.setAttribute('style', 'max-width: 33%;');
+    forecastCard.appendChild(dateEl);
+    dateEl.setAttribute('class', 'card-header');
+    forecastCard.appendChild(imageEl);
+    imageEl.setAttribute('class', 'card-text mt-3');
+    forecastCard.appendChild(tempEl);
+    tempEl.setAttribute('class', 'card-text');
+    forecastCard.appendChild(windEl);
+    windEl.setAttribute('class', 'card-text');
+    forecastCard.appendChild(humidityEl);
+    humidityEl.setAttribute('class', 'card-text mb-3');
+
+    // give elements appropriate data and content 
+    dateEl.textContent = date;
+    tempEl.textContent = `Temp: ${dailyForecast[i].main.temp} °F`;
+    windEl.textContent = `Wind: ${dailyForecast[i].wind.speed} mph`;
+    humidityEl.textContent = `Hum: ${dailyForecast[i].main.humidity} %`;
   }
 }
 
@@ -183,6 +220,14 @@ function handleSearchHistoryClick(e) {
 }
 
 renderSearchHistory();
+
+// Clear Local Storage on click
+const btnClear = document.getElementById('clear-history')
+btnClear.onclick = function () {
+  localStorage.clear();
+  if(localStorage.length === 0)
+     lsOutput.innerHTML = "";
+};
 
 // Event listeners for 1. Searching a new city and 2. Clicking a previously searched city
 searchSubmitBtn.addEventListener('click', handleSearchFormSubmit);
