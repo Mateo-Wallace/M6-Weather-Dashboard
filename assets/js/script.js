@@ -21,10 +21,10 @@ function renderSearchHistory() {
     city = localStorage.getItem(localStorage.key(i));
     var cityButton = document.createElement("button");
     cityButton.setAttribute("class", "btn btn-dark col-3 col-md-11 m-1 saved-search-btn");
-    cityButton.setAttribute('id', city)
+    cityButton.setAttribute('id', city);
     cityButton.textContent = city;
     savedSearchEl.appendChild(cityButton);
-    document.getElementById(city).addEventListener('click', handleSearchHistoryClick)
+    document.getElementById(city).addEventListener('click', handleSearchHistoryClick);
   }
 }
 
@@ -36,16 +36,16 @@ function appendToHistory(search) {
 
 // Function to display the CURRENT weather data
 function renderCurrentWeather(city, weather) {
-  todaysForecastEl.innerHTML = ''
+  todaysForecastEl.innerHTML = '';
 
   // Elements  
-  var cityName = document.createElement('h3')
-  cityName.setAttribute('class', 'card-header fw-bold')
-  var cardBody = document.createElement('div')
-  cardBody.setAttribute('class', 'card-body')
-  var cardTemp = document.createElement('p')
-  var cardWind = document.createElement('p')
-  var cardHumidity = document.createElement('p')
+  var cityName = document.createElement('h3');
+  cityName.setAttribute('class', 'card-header fw-bold');
+  var cardBody = document.createElement('div');
+  cardBody.setAttribute('class', 'card-body');
+  var cardTemp = document.createElement('p');
+  var cardWind = document.createElement('p');
+  var cardHumidity = document.createElement('p');
 
   var iconImg = weather.weather[0].main;
   if (iconImg == 'Rain') {
@@ -65,17 +65,17 @@ function renderCurrentWeather(city, weather) {
   date = mm + '/' + dd + '/' + yyyy;
 
   // Appended elements
-  todaysForecastEl.appendChild(cityName)
-  todaysForecastEl.appendChild(cardBody)
-  cardBody.appendChild(cardTemp)
-  cardBody.appendChild(cardWind)
-  cardBody.appendChild(cardHumidity)
+  todaysForecastEl.appendChild(cityName);
+  todaysForecastEl.appendChild(cardBody);
+  cardBody.appendChild(cardTemp);
+  cardBody.appendChild(cardWind);
+  cardBody.appendChild(cardHumidity);
 
   // Text content of appended elements
-  cityName.innerHTML = city + ' (' + date + ') ' + iconImg
-  cardTemp.innerText = 'Temp: ' + weather.main.temp + ' °F'
-  cardWind.innerText = 'Wind: ' + weather.wind.speed + ' mph'
-  cardHumidity.innerText = 'Humidity: ' + weather.main.humidity + '%'
+  cityName.innerHTML = city + ' (' + date + ') ' + iconImg;
+  cardTemp.innerText = 'Temp: ' + weather.main.temp + ' °F';
+  cardWind.innerText = 'Wind: ' + weather.wind.speed + ' mph';
+  cardHumidity.innerText = 'Humidity: ' + weather.main.humidity + '%';
 }
 
 // Function to display 5 day forecast. VIP FIRST LOAD
@@ -159,7 +159,7 @@ function fetchWeather(lat, lon, city) {
       if (response.ok) {
         response.json()
           .then(function (data) {
-            renderItems(city, data)
+            renderItems(city, data);
           })
       } else {
         return;
@@ -179,14 +179,13 @@ function fetchCoords(search) {
           .then(function (data) {
             // Returns nothing if the data has no information, ex: city does not exist in api
             if (data.length === 0) {
-              alert('Unknown City. \nBe sure to only type the city name without the State.\n\nIf issue persists please try another city.')
+              alert('Unknown City. \nBe sure to only type the city name without the State.\n\nIf issue persists please try another city.');
               return;
             }
             lat = data[0].lat;
             lon = data[0].lon;
             search = data[0].name;
-            city = search
-            console.log('lat: ' + lat + ', lon: ' + lon);
+            city = search;
 
             appendToHistory(search);
             fetchWeather(lat, lon, city);
@@ -199,22 +198,18 @@ function fetchCoords(search) {
 
 // Pulls down the value of the User Input when search is clicked
 function handleSearchFormSubmit(e) {
-  console.log('Search Button Clicked');
   if (!searchInput.value) {
     return;
   }
   e.preventDefault();
 
   search = searchInput.value.trim();
-  console.log('Searched item = ' + search);
   fetchCoords(search);
   searchInput.value = '';
 }
 
 // Selects value of button clicked 
 function handleSearchHistoryClick(e) {
-  console.log('Previous Search Button Clicked');
-  console.log('Searched item = ' + e.target.textContent);
   search = e.target.textContent;
   fetchCoords(search);
 }
@@ -225,8 +220,6 @@ renderSearchHistory();
 const btnClear = document.getElementById('clear-history')
 btnClear.onclick = function () {
   localStorage.clear();
-  if(localStorage.length === 0)
-     lsOutput.innerHTML = "";
 };
 
 // Event listeners for 1. Searching a new city and 2. Clicking a previously searched city
