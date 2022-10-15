@@ -138,6 +138,7 @@ function renderForecast(dailyForecast) {
 
     // give elements appropriate data and content 
     dateEl.textContent = date;
+    imageEl.innerHTML = iconImage;
     tempEl.textContent = `Temp: ${dailyForecast[i].main.temp} °F`;
     windEl.textContent = `Wind: ${dailyForecast[i].wind.speed} mph`;
     humidityEl.textContent = `Hum: ${dailyForecast[i].main.humidity} %`;
