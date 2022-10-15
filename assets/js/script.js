@@ -34,22 +34,51 @@ function appendToHistory(search) {
   renderSearchHistory();
 }
 
-// Function to display the CURRENT weather data fetched from OpenWeather api.
+// Function to display the CURRENT weather data
 function renderCurrentWeather(city, weather) {
-  // Store response data from our fetch request in variables
-  // temperature, wind speed, etc.
+  todaysForecastEl.innerHTML = ''
 
+  // Elements  
+  var cityName = document.createElement('h3')
+  cityName.setAttribute('class', 'card-header fw-bold')
+  var cardBody = document.createElement('div')
+  cardBody.setAttribute('class', 'card-body')
+  var cardTemp = document.createElement('p')
+  var cardWind = document.createElement('p')
+  var cardHumidity = document.createElement('p')
 
-  // document.create the elements you'll want to put this information in  
+  var iconImg = weather.weather[0].main;
+  if (iconImg == 'Rain') {
+    iconImg = `<i class="fa-solid fa-cloud-showers-heavy"></i>`;
+  } else if (iconImg == 'Clouds') {
+    iconImg = `<i class="fa-solid fa-cloud"></i>`;
+  } else if (iconImg == 'Clear') {
+    iconImg = `<i class="fa-solid fa-sun"></i>`;
+  } else {
+    iconImg = "";
+  }
 
-  // append those elements somewhere
+  var date = new Date();
+  var dd = String(date.getDate()).padStart(2, '0');
+  var mm = String(date.getMonth() + 1).padStart(2, '0');
+  var yyyy = date.getFullYear();
+  date = mm + '/' + dd + '/' + yyyy;
 
-  // give them their appropriate content
+  // Appended elements
+  todaysForecastEl.appendChild(cityName)
+  todaysForecastEl.appendChild(cardBody)
+  cardBody.appendChild(cardTemp)
+  cardBody.appendChild(cardWind)
+  cardBody.appendChild(cardHumidity)
 
+  // Text content of appended elements
+  cityName.innerHTML = city + ' (' + date + ') ' + iconImg
+  cardTemp.innerText = 'Temp: ' + weather.main.temp + ' °F'
+  cardWind.innerText = 'Wind: ' + weather.wind.speed + ' mph'
+  cardHumidity.innerText = 'Humidity: ' + weather.main.humidity + '%'
 }
 
-// Function to display a FORECAST card given an object (from our renderForecast function) from open weather api
-// daily forecast.
+// Function to display a FORECAST card given an object (from our renderForecast function)
 function renderForecastCard(forecast) {
   // variables for data from api
   // temp, windspeed, etc.
@@ -63,7 +92,7 @@ function renderForecastCard(forecast) {
   // append to forecast section
 }
 
-// Function to display 5 day forecast.
+// Function to display 5 day forecast. VIP FIRST LOAD
 function renderForecast(dailyForecast) {
   // set up elements for this section
 
@@ -78,6 +107,7 @@ function renderForecast(dailyForecast) {
   }
 }
 
+// Seperates data and calls functions to print to page
 function renderItems(city, data) {
   renderCurrentWeather(city, data.list[0]);
   renderForecast(data.list);
@@ -86,15 +116,14 @@ function renderItems(city, data) {
 // Fetches weather data and sends to renderItems function
 function fetchWeather(lat, lon, city) {
   var weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&units=imperial&lang=en&appid=' + apiKey;
-  
+
   fetch(weatherUrl)
     .then(function (response) {
       if (response.ok) {
         response.json()
-        .then(function (data) {
-          console.log(data);
-          renderItems(city, data)
-        })
+          .then(function (data) {
+            renderItems(city, data)
+          })
       } else {
         return;
       }
@@ -116,7 +145,6 @@ function fetchCoords(search) {
               alert('Unknown City. \nBe sure to only type the city name without the State.\n\nIf issue persists please try another city.')
               return;
             }
-            console.log(data)
             lat = data[0].lat;
             lon = data[0].lon;
             search = data[0].name;
